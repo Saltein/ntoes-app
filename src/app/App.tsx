@@ -4,7 +4,11 @@ import { Provider } from "react-redux";
 import { store } from "./store";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { styles } from "../shared";
-import { AuthPage } from "../pages";
+import { AuthPage, NotesPage } from "../pages";
+import { createNativeStackNavigator } from "@react-navigation/native-stack";
+import { NavigationContainer } from "@react-navigation/native";
+
+const Stack = createNativeStackNavigator();
 
 export default function App() {
     const { height } = useWindowDimensions();
@@ -14,7 +18,16 @@ export default function App() {
             <StatusBar style="auto" />
             <SafeAreaView style={[s.container, { height: height }]}>
                 <View style={s.innerContainer}>
-                    <AuthPage />
+                    <NavigationContainer>
+                        <Stack.Navigator
+                            screenOptions={{
+                                headerShown: false,
+                            }}
+                        >
+                            <Stack.Screen name="Auth" component={AuthPage} />
+                            <Stack.Screen name="Notes" component={NotesPage} />
+                        </Stack.Navigator>
+                    </NavigationContainer>
                 </View>
             </SafeAreaView>
         </Provider>

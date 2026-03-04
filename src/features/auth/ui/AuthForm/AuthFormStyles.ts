@@ -16,4 +16,19 @@ export const s = StyleSheet.create({
     input: {
         borderRadius: styles.radius.xl,
     },
+
+    authButton: {
+        justifyContent: "center",
+        alignItems: "center",
+        borderColor: styles.colors.border,
+        borderWidth: 3,
+        borderRadius: styles.radius.xl,
+        height: 64,
+        width: 256,
+    },
+
+    authButtonText: {
+        fontSize: 20,
+        fontWeight: 600,
+    },
 });

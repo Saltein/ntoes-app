@@ -11,5 +11,9 @@
         "statusBar.debuggingForeground": "#EFFEEF",
         "statusBar.noFolderBackground": "#4b858c",
         "statusBar.noFolderForeground": "#EFFEEF"
-    }
+    },
+    "cSpell.words": [
+        "ellipsize",
+        "Pressable"
+    ]
 }
