@@ -1,8 +1,9 @@
 import { configureStore } from "@reduxjs/toolkit";
+import { searchReducer } from "../features/search/model/slice";
 
 export const store = configureStore({
     reducer: {
-        // city: cityReducer,
+        search: searchReducer,
         // [weatherApi.reducerPath]: weatherApi.reducer,
     },
     // middleware: (getDefaultMiddleware) =>

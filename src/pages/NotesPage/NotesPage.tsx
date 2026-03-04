@@ -5,6 +5,7 @@ import { NoteCardItem } from "../../entities/note/model/types";
 import MasonryList from "@react-native-seoul/masonry-list";
 import { styles } from "../../shared";
 import AddIcon from "../../shared/assets/icons/add.svg";
+import { Header } from "../../widgets";
 
 const notes: NoteCardItem[] = [
     {
@@ -87,6 +88,7 @@ const notes: NoteCardItem[] = [
 export function NotesPage() {
     return (
         <View style={s.container}>
+            <Header />
             <MasonryList
                 data={notes as NoteCardItem[]}
                 numColumns={2}
