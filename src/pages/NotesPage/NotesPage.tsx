@@ -90,7 +90,7 @@ export function NotesPage() {
             <MasonryList
                 data={notes as NoteCardItem[]}
                 numColumns={2}
-                style={{ gap: styles.spacing.sm }}
+                style={{ gap: styles.spacing.xs }}
                 renderItem={({ item }) => {
                     const note = item as NoteCardItem;
                     return (
@@ -103,7 +103,7 @@ export function NotesPage() {
                 <AddIcon
                     width={48}
                     height={48}
-                    color={styles.colors.textMain}
+                    color={styles.colors.textBrightMain}
                 />
             </Pressable>
         </View>

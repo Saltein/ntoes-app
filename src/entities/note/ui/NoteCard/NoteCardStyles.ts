@@ -6,7 +6,8 @@ export const s = StyleSheet.create({
         width: "100%",
         borderRadius: styles.radius.md,
         padding: styles.spacing.sm,
-        marginBottom: styles.spacing.sm,
+        marginBottom: styles.spacing.xs,
+        borderWidth: 1,
     },
 
     text: {

@@ -4,12 +4,12 @@ import { styles } from "../../shared";
 export const s = StyleSheet.create({
     container: {
         flex: 1,
-        padding: styles.spacing.sm,
+        padding: styles.spacing.xs,
         backgroundColor: styles.colors.backgroundMain,
     },
     newNoteButton: {
         position: "absolute",
-        right: styles.spacing.xl,
+        right: styles.spacing.md,
         bottom: styles.spacing.xl,
         backgroundColor: styles.colors.button,
         width: 64,

@@ -1,11 +1,13 @@
 export const styles = {
     colors: {
-        backgroundMain: "#fcfcfa",
+        backgroundMain: "#e4f6fc",
         backgroundSurface: "#fff8",
-        textMain: "#995540",
-        textMuted: "#99554099",
-        border: "#977368",
-        button: "#a3dd61",
+        textMain: "#2c9be0",
+        textMuted: "#2c9be099",
+        textBrightMain: "#e4f6fc",
+        textBrightMuted: "#e4f6fc99",
+        border: "#2c9be0",
+        button: "#2c9be0",
     },
     radius: {
         xxs: 2,

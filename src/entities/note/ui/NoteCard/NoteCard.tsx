@@ -10,7 +10,15 @@ interface NoteCardProps {
 
 export function NoteCard({ content, color }: NoteCardProps) {
     return (
-        <View style={[s.container, { backgroundColor: color }]}>
+        <View
+            style={[
+                s.container,
+                {
+                    backgroundColor: color,
+                    borderColor: invertColorWithBrightness(color, 0.3),
+                },
+            ]}
+        >
             <DefaultText
                 numberOfLines={16}
                 ellipsizeMode="tail"
