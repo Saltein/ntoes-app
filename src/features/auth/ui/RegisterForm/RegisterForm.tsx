@@ -7,6 +7,7 @@ import { Portal } from "react-native-paper";
 import { useRegisterMutation } from "../../model/authApiSlice";
 import { validateEmail } from "../../utils/validateEmail";
 import { AuthMode } from "../AuthModeSwitcher/AuthModeSwitcher";
+import { useNoticeVisibility } from "../../../../shared/hooks/useNoticeVisibility";
 
 interface RegisterFormProps {
     setMode: React.Dispatch<React.SetStateAction<AuthMode>>;
@@ -19,10 +20,13 @@ export function RegisterForm({ setMode, setNotice }: RegisterFormProps) {
     const [password, setPassword] = useState("");
     const [passwordCheck, setPasswordCheck] = useState("");
     const [textError, setTextError] = useState("");
+    const [trigger, setTrigger] = useState(0);
+    const isVisible = useNoticeVisibility(textError, trigger);
 
     const [register, { isLoading }] = useRegisterMutation();
 
     async function handleRegister() {
+        setTrigger((prev) => prev + 1);
         if (!name || !email || !password || !passwordCheck) {
             setTextError("Заполните все поля");
         } else if (!validateEmail(email)) {
@@ -104,7 +108,7 @@ export function RegisterForm({ setMode, setNotice }: RegisterFormProps) {
 
             <MainButton onPress={handleRegister} title="Зарегистрироваться" />
 
-            {textError && (
+            {isVisible && textError && (
                 <Portal>
                     <View
                         style={{
@@ -112,13 +116,14 @@ export function RegisterForm({ setMode, setNotice }: RegisterFormProps) {
                             alignItems: "center",
                         }}
                     >
-                        {isLoading && (
+                        {isLoading ? (
                             <Warning
                                 type="info"
                                 content="Ждем ответ сервера..."
                             />
+                        ) : (
+                            <Warning type="error" content={textError} />
                         )}
-                        <Warning type="error" content={textError} />
                     </View>
                 </Portal>
             )}

@@ -5,27 +5,15 @@ import { DefaultText, Warning } from "../../../../shared";
 import { useEffect, useState } from "react";
 import { RegisterForm } from "../RegisterForm/RegisterForm";
 import { Portal } from "react-native-paper";
+import { useNoticeVisibility } from "../../../../shared/hooks/useNoticeVisibility";
 
 export type AuthMode = "login" | "register";
 
 export function AuthModeSwitcher() {
     const [mode, setMode] = useState<AuthMode>("login");
     const [notice, setNotice] = useState("");
-    const [isVisible, setIsVisible] = useState(false);
-
-    useEffect(() => {
-        if (!notice) return;
-
-        setIsVisible(true);
-
-        const timer = setTimeout(() => {
-            setIsVisible(false);
-        }, 5000);
-
-        return () => {
-            clearTimeout(timer);
-        };
-    }, [notice]);
+    const [trigger, setTrigger] = useState(0);
+    const isVisible = useNoticeVisibility(notice, trigger);
 
     return (
         <View style={s.container}>

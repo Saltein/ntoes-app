@@ -8,6 +8,7 @@ import { s } from "../FormStyles";
 import { Portal } from "react-native-paper";
 import { useLoginMutation } from "../../model/authApiSlice";
 import { validateEmail } from "../../utils/validateEmail";
+import { useNoticeVisibility } from "../../../../shared/hooks/useNoticeVisibility";
 
 type NavigationProp = NativeStackNavigationProp<RootStackParamList, "Auth">;
 
@@ -17,10 +18,13 @@ export function LoginForm() {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [textError, setTextError] = useState("");
+    const [trigger, setTrigger] = useState(0);
+    const isVisible = useNoticeVisibility(textError, trigger);
 
     const [login, { isLoading }] = useLoginMutation();
 
     async function handleLogin() {
+        setTrigger((prev) => prev + 1);
         if (!email || !password) {
             setTextError("Заполните все поля");
         } else if (!validateEmail(email)) {
@@ -34,6 +38,7 @@ export function LoginForm() {
                     password: password,
                 }).unwrap();
                 if (result) {
+                    setTextError("");
                     navigation.navigate("Notes");
                     // setTextError(JSON.stringify(result));
                 }
@@ -70,7 +75,7 @@ export function LoginForm() {
 
             <MainButton onPress={handleLogin} title="Войти" />
 
-            {textError && (
+            {isVisible && textError && (
                 <Portal>
                     <View
                         style={{
@@ -78,13 +83,14 @@ export function LoginForm() {
                             alignItems: "center",
                         }}
                     >
-                        {isLoading && (
+                        {isLoading ? (
                             <Warning
                                 type="info"
                                 content="Ждем ответ сервера..."
                             />
+                        ) : (
+                            <Warning type="error" content={textError} />
                         )}
-                        <Warning type="error" content={textError} />
                     </View>
                 </Portal>
             )}

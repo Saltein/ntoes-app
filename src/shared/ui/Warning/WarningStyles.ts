@@ -6,9 +6,9 @@ export const s = StyleSheet.create({
         position: "absolute",
         paddingHorizontal: styles.spacing.sm,
         paddingVertical: styles.spacing.xs,
-        borderWidth: 3,
         borderRadius: styles.radius.xxl,
         maxWidth: "90%",
+        elevation: 4,
     },
 
     text: {
