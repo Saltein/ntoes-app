@@ -2,7 +2,7 @@ import { Pressable, View } from "react-native";
 import { LoginForm } from "../LoginForm/LoginForm";
 import { s } from "./AuthModeSwitcherStyles";
 import { DefaultText, Warning } from "../../../../shared";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { RegisterForm } from "../RegisterForm/RegisterForm";
 import { Portal } from "react-native-paper";
 import { useNoticeVisibility } from "../../../../shared/hooks/useNoticeVisibility";

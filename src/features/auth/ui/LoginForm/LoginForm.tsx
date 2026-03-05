@@ -1,20 +1,14 @@
 import { View } from "react-native";
 import { DefaultTextInput, MainButton, Warning } from "../../../../shared";
-import { NativeStackNavigationProp } from "@react-navigation/native-stack";
-import { RootStackParamList } from "../../../../app/providers/navigation/types";
-import { useNavigation } from "@react-navigation/native";
 import { useState } from "react";
 import { s } from "../FormStyles";
 import { Portal } from "react-native-paper";
 import { useLoginMutation } from "../../model/authApiSlice";
 import { validateEmail } from "../../utils/validateEmail";
 import { useNoticeVisibility } from "../../../../shared/hooks/useNoticeVisibility";
-
-type NavigationProp = NativeStackNavigationProp<RootStackParamList, "Auth">;
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 export function LoginForm() {
-    const navigation = useNavigation<NavigationProp>();
-
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [textError, setTextError] = useState("");
@@ -39,8 +33,7 @@ export function LoginForm() {
                 }).unwrap();
                 if (result) {
                     setTextError("");
-                    navigation.navigate("Notes");
-                    // setTextError(JSON.stringify(result));
+                    setTextError(JSON.stringify(result));
                 }
             } catch (err) {
                 const error = JSON.stringify(err);

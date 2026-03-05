@@ -6,12 +6,17 @@ import {
     RegisterResponse,
 } from "./types";
 
+const baseUrl = "http://192.168.3.120:3001/api/";
+
+const baseQuery = fetchBaseQuery({
+    baseUrl,
+    credentials: "include",
+});
+
 export const authApi = createApi({
-    reducerPath: "authApi", // Ключ в store
-    baseQuery: fetchBaseQuery({
-        baseUrl: "http://192.168.3.120:3001/api/",
-        credentials: "include",
-    }),
+    reducerPath: "authApi",
+    baseQuery: baseQuery,
+    tagTypes: ["Auth"],
     endpoints: (builder) => ({
         register: builder.mutation<RegisterResponse, RegisterParams>({
             query: (body) => ({
@@ -24,16 +29,18 @@ export const authApi = createApi({
             query: (body) => ({
                 url: "users/login",
                 method: "POST",
-                body: body,
+                body,
             }),
+            invalidatesTags: ["Auth"],
         }),
         getMe: builder.query<LoginResponse, void>({
-            query: () => "users/me",
+            query: () => "users/auth-check",
+            providesTags: ["Auth"],
         }),
     }),
 });
 
-export const { useRegisterMutation, useLoginMutation } = authApi;
+export const { useRegisterMutation, useLoginMutation, useGetMeQuery } = authApi;
 
 export const authReducer = authApi.reducer;
 export const authMiddleware = authApi.middleware;
