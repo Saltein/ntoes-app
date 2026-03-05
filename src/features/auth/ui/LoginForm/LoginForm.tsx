@@ -1,10 +1,13 @@
 import { View } from "react-native";
-import { DefaultTextInput, MainButton } from "../../../../shared";
+import { DefaultTextInput, MainButton, Warning } from "../../../../shared";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { RootStackParamList } from "../../../../app/providers/navigation/types";
 import { useNavigation } from "@react-navigation/native";
 import { useState } from "react";
 import { s } from "../FormStyles";
+import { Portal } from "react-native-paper";
+import { useLoginMutation } from "../../model/authApiSlice";
+import { validateEmail } from "../../utils/validateEmail";
 
 type NavigationProp = NativeStackNavigationProp<RootStackParamList, "Auth">;
 
@@ -13,9 +16,36 @@ export function LoginForm() {
 
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
+    const [textError, setTextError] = useState("");
 
-    function handleLogin() {
-        navigation.navigate("Notes");
+    const [login, { isLoading }] = useLoginMutation();
+
+    async function handleLogin() {
+        if (!email || !password) {
+            setTextError("Заполните все поля");
+        } else if (!validateEmail(email)) {
+            setTextError("Некорректный формат почты");
+        } else if (password.length < 8) {
+            setTextError("Пароль должен содержать как минимум 8 символов");
+        } else {
+            try {
+                const result = await login({
+                    email: email,
+                    password: password,
+                }).unwrap();
+                if (result) {
+                    navigation.navigate("Notes");
+                    // setTextError(JSON.stringify(result));
+                }
+            } catch (err) {
+                const error = JSON.stringify(err);
+                if (error.includes("record not found")) {
+                    setTextError("Такого пользователя не существует");
+                } else if (error.includes("Wrong password")) {
+                    setTextError("Неправильная почта или пароль");
+                } else setTextError(`Ошибка: ${error}`);
+            }
+        }
     }
 
     return (
@@ -38,7 +68,26 @@ export function LoginForm() {
                 onChangeText={setPassword}
             />
 
-            <MainButton onPress={handleLogin} title="Войти"/>
+            <MainButton onPress={handleLogin} title="Войти" />
+
+            {textError && (
+                <Portal>
+                    <View
+                        style={{
+                            width: "100%",
+                            alignItems: "center",
+                        }}
+                    >
+                        {isLoading && (
+                            <Warning
+                                type="info"
+                                content="Ждем ответ сервера..."
+                            />
+                        )}
+                        <Warning type="error" content={textError} />
+                    </View>
+                </Portal>
+            )}
         </View>
     );
 }

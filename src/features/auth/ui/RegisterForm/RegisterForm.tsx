@@ -2,10 +2,10 @@ import { View } from "react-native";
 import { useState } from "react";
 import { s } from "../FormStyles";
 import { DefaultTextInput, MainButton, Warning } from "../../../../shared";
-import { comparePasswords } from "./utils/comparePasswords";
+import { comparePasswords } from "../../utils/comparePasswords";
 import { Portal } from "react-native-paper";
 import { useRegisterMutation } from "../../model/authApiSlice";
-import { validateEmail } from "./utils/validateEmail";
+import { validateEmail } from "../../utils/validateEmail";
 import { AuthMode } from "../AuthModeSwitcher/AuthModeSwitcher";
 
 interface RegisterFormProps {
