@@ -3,22 +3,26 @@ import { styles } from "../../shared";
 
 export const s = StyleSheet.create({
     container: {
+        position: "absolute",
+        zIndex: 10,
+        paddingHorizontal: styles.spacing.xs,
+        paddingVertical: styles.spacing.xs,
         flexDirection: "row",
         alignItems: "center",
         gap: styles.spacing.sm,
-        width: "100%",
         marginBottom: styles.spacing.sm,
     },
 
     profile: {
         backgroundColor: styles.colors.button,
         color: styles.colors.textBrightMain,
-        borderRadius: styles.radius.lg,
+        borderRadius: styles.radius.md,
         paddingHorizontal: styles.spacing.md,
         height: 48,
         textAlign: "center",
         textAlignVertical: "center",
-        fontSize: 18,
+        fontSize: 20,
         alignSelf: "center",
+        elevation: 6,
     },
 });

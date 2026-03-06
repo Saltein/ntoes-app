@@ -17,6 +17,7 @@ const baseQuery = fetchBaseQuery({
             headers.set("Authorization", `Bearer ${token}`);
         }
         headers.set("X-Client-Type", "mobile");
+
         return headers;
     },
 });
@@ -41,6 +42,12 @@ export const authApi = createApi({
             }),
             invalidatesTags: ["Auth"],
         }),
+        logout: builder.mutation<void, void>({
+            query: () => ({
+                url: "users/logout",
+                method: "GET",
+            }),
+        }),
         getMe: builder.query<LoginResponse, void>({
             query: () => "users/auth-check",
             providesTags: ["Auth"],
@@ -48,7 +55,12 @@ export const authApi = createApi({
     }),
 });
 
-export const { useRegisterMutation, useLoginMutation, useGetMeQuery } = authApi;
+export const {
+    useRegisterMutation,
+    useLoginMutation,
+    useLogoutMutation,
+    useGetMeQuery,
+} = authApi;
 
 export const authReducer = authApi.reducer;
 export const authMiddleware = authApi.middleware;

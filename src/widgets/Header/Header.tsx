@@ -1,18 +1,35 @@
-import { View } from "react-native";
-import { DefaultText } from "../../shared";
+import { Pressable, View } from "react-native";
+import { DefaultText, styles } from "../../shared";
 import { s } from "./HeaderStyles";
 import SearchBar from "../../features/search/ui/SearchBar/SearchBar";
+import { LinearGradient } from "expo-linear-gradient";
+import { User } from "../../features/auth/model/types";
+import { ProfileMenu } from "./components/ProfileMenu/ProfileMenu";
 
 interface HeaderProps {
-    nickname?: string;
+    data?: User;
 }
 
-export function Header({ nickname }: HeaderProps) {
+export function Header({ data }: HeaderProps) {
     return (
         <View style={s.container}>
+            <LinearGradient
+                colors={[styles.colors.backgroundMain, "transparent"]}
+                style={{
+                    height: "150%",
+                    width: "200%",
+                    position: "absolute",
+                    top: 0,
+                }}
+            />
             <SearchBar />
+            <Pressable>
+                <DefaultText style={s.profile}>
+                    {data?.nickname ?? "Профиль"}
+                </DefaultText>
+            </Pressable>
 
-            <DefaultText style={s.profile}>{nickname ?? "Профиль"}</DefaultText>
+            <ProfileMenu />
         </View>
     );
 }

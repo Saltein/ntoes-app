@@ -11,6 +11,8 @@ export const s = StyleSheet.create({
         borderRadius: styles.radius.xxl,
         paddingLeft: styles.spacing.sm,
         height: 48,
+        backgroundColor: styles.colors.backgroundMain,
+        elevation: 6,
     },
 
     textInput: {

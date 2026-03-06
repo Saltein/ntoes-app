@@ -6,6 +6,9 @@ import MasonryList from "@react-native-seoul/masonry-list";
 import { styles } from "../../shared";
 import AddIcon from "../../shared/assets/icons/add.svg";
 import { Header } from "../../widgets";
+import { useGetMeQuery } from "../../features/auth/model/authApiSlice";
+import { Portal } from "react-native-paper";
+import { LinearGradient } from "expo-linear-gradient";
 
 const notes: NoteCardItem[] = [
     {
@@ -86,13 +89,20 @@ const notes: NoteCardItem[] = [
 ];
 
 export function NotesPage() {
+    const { data } = useGetMeQuery();
+
     return (
         <View style={s.container}>
-            <Header />
+            <Portal>
+                <Header data={data?.user} />
+            </Portal>
             <MasonryList
                 data={notes as NoteCardItem[]}
                 numColumns={2}
-                style={{ gap: styles.spacing.xs }}
+                style={{
+                    gap: styles.spacing.xs,
+                    paddingVertical: 48 + styles.spacing.xs,
+                }}
                 renderItem={({ item }) => {
                     const note = item as NoteCardItem;
                     return (
@@ -100,6 +110,15 @@ export function NotesPage() {
                     );
                 }}
                 keyExtractor={(item) => (item as NoteCardItem).id.toString()}
+            />
+            <LinearGradient
+                colors={["transparent", styles.colors.backgroundMain]}
+                style={{
+                    height: 48,
+                    width: "200%",
+                    position: "absolute",
+                    bottom: 8,
+                }}
             />
             <Pressable style={s.newNoteButton}>
                 <AddIcon

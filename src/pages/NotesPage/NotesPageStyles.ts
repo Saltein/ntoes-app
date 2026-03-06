@@ -7,6 +7,7 @@ export const s = StyleSheet.create({
         padding: styles.spacing.xs,
         backgroundColor: styles.colors.backgroundMain,
     },
+
     newNoteButton: {
         position: "absolute",
         right: styles.spacing.md,
