@@ -1,4 +1,4 @@
-export type RootStackParamList = {
-    Auth: undefined;
+export type AppStackParamList = {
     Notes: undefined;
+    NoteRedactor: undefined;
 };

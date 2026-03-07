@@ -1,8 +1,13 @@
-import { View } from "react-native";
+import { Pressable, View } from "react-native";
 import { DefaultText } from "../../../../shared";
 import { s } from "./NoteCardStyles";
 import { invertColorWithBrightness } from "../../utils/invertColorWithBrigtness";
 import { Note } from "../../model/types";
+import { useNavigation } from "@react-navigation/native";
+import { AppStackParamList } from "../../../../app/providers/navigation/types";
+import { NativeStackNavigationProp } from "@react-navigation/native-stack";
+import { useDispatch } from "react-redux";
+import { setCurrentNote } from "../../model/slice";
 
 interface NoteCardProps {
     data: Note;
@@ -11,8 +16,18 @@ interface NoteCardProps {
 export function NoteCard({ data }: NoteCardProps) {
     const { color, content, title } = data;
 
+    const dispatch = useDispatch();
+
+    const navigation =
+        useNavigation<NativeStackNavigationProp<AppStackParamList>>();
+
+    function handleOpenNote() {
+        dispatch(setCurrentNote(data));
+        navigation.navigate("NoteRedactor");
+    }
+
     return (
-        <View
+        <Pressable
             style={[
                 s.container,
                 {
@@ -20,6 +35,7 @@ export function NoteCard({ data }: NoteCardProps) {
                     borderColor: invertColorWithBrightness(color, 0.3),
                 },
             ]}
+            onPress={handleOpenNote}
         >
             <DefaultText
                 numberOfLines={1}
@@ -41,6 +57,6 @@ export function NoteCard({ data }: NoteCardProps) {
             >
                 {content}
             </DefaultText>
-        </View>
+        </Pressable>
     );
 }

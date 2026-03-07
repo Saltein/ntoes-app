@@ -1,19 +1,21 @@
-import { Pressable, View } from "react-native";
+import { View } from "react-native";
 import { s } from "./NotesPageStyles";
 import { NoteCard } from "../../entities";
 import { Note } from "../../entities/note/model/types";
 import MasonryList from "@react-native-seoul/masonry-list";
 import { DefaultText, styles } from "../../shared";
-import AddIcon from "../../shared/assets/icons/add.svg";
 import { Header } from "../../widgets";
 import { useGetMeMutation } from "../../features/auth/model/authApiSlice";
 import { Portal } from "react-native-paper";
 import { LinearGradient } from "expo-linear-gradient";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useGetMyNotesQuery } from "../../features/notes/model/notesApiSlice";
+import { useFocusEffect } from "@react-navigation/native";
+import { NewNoteButton } from "./NewNoteButton/NewNoteButton";
 
 export function NotesPage() {
     const [getMe, { data }] = useGetMeMutation();
+    const [showHeader, setShowHeader] = useState(true);
     const {
         data: notesData,
         isLoading,
@@ -21,16 +23,26 @@ export function NotesPage() {
         error,
     } = useGetMyNotesQuery();
 
+    useFocusEffect(() => {
+        setShowHeader(true);
+        return () => {
+            setShowHeader(false);
+        };
+    });
+
     useEffect(() => {
         getMe();
     }, []);
 
     return (
         <View style={s.container}>
-            <Portal>
-                <Header data={data?.user} />
-            </Portal>
+            {showHeader && (
+                <Portal>
+                    <Header data={data?.user} />
+                </Portal>
+            )}
             {isFetching || (isLoading && <DefaultText>Loading...</DefaultText>)}
+            {/* TODO сделать заглушку */}
             {notesData && (
                 <MasonryList
                     data={notesData.data}
@@ -55,13 +67,7 @@ export function NotesPage() {
                     bottom: 8,
                 }}
             />
-            <Pressable style={s.newNoteButton}>
-                <AddIcon
-                    width={48}
-                    height={48}
-                    color={styles.colors.textBrightMain}
-                />
-            </Pressable>
+            <NewNoteButton />
         </View>
     );
 }
