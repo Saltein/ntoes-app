@@ -1,19 +1,19 @@
 export const styles = {
     colors: {
-        backgroundMain: "#e4f6fc",
-        backgroundSurface: "rgba(0, 166, 255, 0.15)",
-        textMain: "#2c9be0",
-        textMuted: "#2c9be099",
+        backgroundMain: "#f5f5f5",
+        backgroundSurface: "#74c3ff33",
+        textMain: "#74c3ff",
+        textMuted: "#74c3ff99",
         textBrightMain: "#e4f6fc",
         textBrightMuted: "#e4f6fc99",
-        border: "#2c9be0",
-        button: "#2c9be0",
+        border: "#74c3ff",
+        button: "#74c3ff",
 
         error: "#EF4444",
         errorBack: "#ffeaea",
         warning: "#F59E0B",
         warningBack: "#fff5e3",
-        info: "#2c9be0",
+        info: "#74c3ff",
         infoBack: "#ddf2ff",
     },
     radius: {

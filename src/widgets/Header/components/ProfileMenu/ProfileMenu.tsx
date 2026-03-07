@@ -2,14 +2,20 @@ import { View, Pressable } from "react-native";
 import { s } from "./ProfileMenuStyles";
 import { DefaultText, styles } from "../../../../shared";
 import LogoutIcon from "../../../../shared/assets/icons/logout.svg";
-import { useLogoutMutation } from "../../../../features/auth/model/authApiSlice";
+import {
+    setTokenTrigger,
+    useLogoutMutation,
+} from "../../../../features/auth/model/authApiSlice";
 import { tokenStorage } from "../../../../shared/lib/storage/tokenStorage";
+import { useDispatch } from "react-redux";
 
 export function ProfileMenu() {
     const [logout] = useLogoutMutation();
+    const dispatch = useDispatch();
 
     async function handleLogout() {
         logout();
+        dispatch(setTokenTrigger());
         await tokenStorage.removeToken();
     }
 

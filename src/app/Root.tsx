@@ -46,7 +46,4 @@ const s = StyleSheet.create({
     container: {
         backgroundColor: styles.colors.backgroundMain,
     },
-    innerContainer: {
-        flex: 1,
-    },
 });

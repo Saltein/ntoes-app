@@ -1,4 +1,4 @@
-import { View, Text } from "react-native";
+import { View } from "react-native";
 import { DefaultText, styles } from "../../../../shared";
 import { useEffect, useState } from "react";
 
@@ -22,15 +22,27 @@ export function AuthLoadingScreen() {
     return (
         <View
             style={{
-                borderLeftColor: styles.colors.border,
-                borderLeftWidth: 3,
-                paddingLeft: styles.spacing.sm,
+                justifyContent: "center",
+                alignItems: "center",
+                flex: 1,
             }}
         >
-            <DefaultText style={{ fontSize: 24, lineHeight: 24, }}>NotesApp</DefaultText>
-            <DefaultText style={{ fontSize: 16, lineHeight: 16, marginBottom: 2 }}>
-                Загрузка{loadingDots}
-            </DefaultText>
+            <View
+                style={{
+                    borderLeftColor: styles.colors.border,
+                    borderLeftWidth: 3,
+                    paddingLeft: styles.spacing.sm,
+                }}
+            >
+                <DefaultText style={{ fontSize: 24, lineHeight: 24 }}>
+                    NotesApp
+                </DefaultText>
+                <DefaultText
+                    style={{ fontSize: 16, lineHeight: 16, marginBottom: 2 }}
+                >
+                    Загрузка{loadingDots}
+                </DefaultText>
+            </View>
         </View>
     );
 }
