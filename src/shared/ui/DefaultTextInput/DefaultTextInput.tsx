@@ -7,7 +7,9 @@ export const DefaultTextInput = ({ style, ...props }: TextInputProps) => {
             style={[s.input, style]}
             {...props}
             multiline={false}
-            placeholderTextColor={styles.colors.textMuted}
+            placeholderTextColor={
+                props.placeholderTextColor || styles.colors.textMuted
+            }
         />
     );
 };

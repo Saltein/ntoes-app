@@ -53,9 +53,10 @@ export const notesApi = createApi({
             }),
         }),
         updateNote: builder.mutation<UpdateNoteResponse, UpdateNoteParams>({
-            query: (id) => ({
-                url: `notes/${id}`,
+            query: (body) => ({
+                url: `notes/${body.id}`,
                 method: "PATCH",
+                body,
             }),
         }),
     }),

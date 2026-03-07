@@ -4,6 +4,7 @@ export interface CreateNoteParams {
     title: string;
     content: string;
     color: string;
+    is_public: boolean;
 }
 
 export interface CreateNoteResponse extends Note {}
@@ -19,9 +20,11 @@ export interface DeleteNoteResponse {
 }
 
 export interface UpdateNoteParams {
+    id: number;
     title?: string;
     content?: string;
     color?: string;
+    is_public?: boolean;
 }
 
 export interface UpdateNoteResponse {
@@ -29,4 +32,5 @@ export interface UpdateNoteResponse {
     title?: string;
     content?: string;
     color?: string;
+    is_public?: boolean;
 }

@@ -37,16 +37,18 @@ export function NoteCard({ data }: NoteCardProps) {
             ]}
             onPress={handleOpenNote}
         >
-            <DefaultText
-                numberOfLines={1}
-                ellipsizeMode="tail"
-                style={[
-                    s.title,
-                    { color: invertColorWithBrightness(color, 0.3) },
-                ]}
-            >
-                {title}
-            </DefaultText>
+            {title && (
+                <DefaultText
+                    numberOfLines={1}
+                    ellipsizeMode="tail"
+                    style={[
+                        s.title,
+                        { color: invertColorWithBrightness(color, 0.3) },
+                    ]}
+                >
+                    {title}
+                </DefaultText>
+            )}
             <DefaultText
                 numberOfLines={16}
                 ellipsizeMode="tail"
