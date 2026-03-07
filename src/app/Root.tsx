@@ -4,18 +4,23 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import { PaperProvider } from "react-native-paper";
 import { NavigationContainer } from "@react-navigation/native";
 import { AuthLoadingScreen } from "../features/auth/ui/AuthLoadingScreen/AuthLoadingScreen";
-import { useGetMeMutation } from "../features/auth/model/authApiSlice";
+import {
+    selectTokenTrigger,
+    useGetMeMutation,
+} from "../features/auth/model/authApiSlice";
 import { styles } from "../shared";
 import { RootNavigator } from "./providers/navigation/RootNavigator";
 import { useEffect } from "react";
+import { useSelector } from "react-redux";
 
 export function Root() {
     const { height } = useWindowDimensions();
     const [getMe, { data, isLoading }] = useGetMeMutation();
+    const tokenTrigger = useSelector(selectTokenTrigger);
 
     useEffect(() => {
         getMe();
-    }, []);
+    }, [tokenTrigger]);
 
     if (isLoading) {
         return <AuthLoadingScreen />;

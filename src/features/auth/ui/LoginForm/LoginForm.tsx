@@ -3,11 +3,14 @@ import { DefaultTextInput, MainButton, Warning } from "../../../../shared";
 import { useState } from "react";
 import { s } from "../FormStyles";
 import { Portal } from "react-native-paper";
-import { useGetMeMutation, useLoginMutation } from "../../model/authApiSlice";
+import {
+    setTokenTrigger,
+    useLoginMutation,
+} from "../../model/authApiSlice";
 import { validateEmail } from "../../utils/validateEmail";
 import { useNoticeVisibility } from "../../../../shared/hooks/useNoticeVisibility";
-import AsyncStorage from "@react-native-async-storage/async-storage";
 import { tokenStorage } from "../../../../shared/lib/storage/tokenStorage";
+import { useDispatch } from "react-redux";
 
 export function LoginForm() {
     const [email, setEmail] = useState("");
@@ -15,9 +18,9 @@ export function LoginForm() {
     const [textError, setTextError] = useState("");
     const [trigger, setTrigger] = useState(0);
     const isVisible = useNoticeVisibility(textError, trigger);
+    const dispatch = useDispatch();
 
     const [login, { isLoading }] = useLoginMutation();
-    const [getMe] = useGetMeMutation();
 
     async function handleLogin() {
         setTrigger((prev) => prev + 1);
@@ -36,7 +39,7 @@ export function LoginForm() {
                 if (result) {
                     console.log("Response: ", JSON.stringify(result));
                     tokenStorage.setToken(result.token);
-                    getMe();
+                    dispatch(setTokenTrigger());
                     setTextError("");
                 }
             } catch (err) {
