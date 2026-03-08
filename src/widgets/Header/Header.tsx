@@ -1,5 +1,5 @@
 import { Pressable, View } from "react-native";
-import { DefaultText, styles } from "../../shared";
+import { DefaultMenu, DefaultText, styles } from "../../shared";
 import { s } from "./HeaderStyles";
 import SearchBar from "../../features/search/ui/SearchBar/SearchBar";
 import { LinearGradient } from "expo-linear-gradient";
@@ -38,21 +38,24 @@ export function Header({ data }: HeaderProps) {
             </Pressable>
 
             {menuIsOpen && (
-                <>
-                    <Portal>
-                        <Pressable
-                            style={{
-                                position: "absolute",
-                                top: 0,
-                                left: 0,
-                                right: 0,
-                                bottom: 0,
-                            }}
-                            onPress={() => setMenuIsOpen(false)}
-                        />
-                        <ProfileMenu />
-                    </Portal>
-                </>
+                <DefaultMenu setMenuIsOpen={setMenuIsOpen}>
+                    <ProfileMenu />
+                </DefaultMenu>
+                // <>
+                //     <Portal>
+                //         <Pressable
+                //             style={{
+                //                 position: "absolute",
+                //                 top: 0,
+                //                 left: 0,
+                //                 right: 0,
+                //                 bottom: 0,
+                //             }}
+                //             onPress={() => setMenuIsOpen(false)}
+                //         />
+                //         <ProfileMenu />
+                //     </Portal>
+                // </>
             )}
         </View>
     );

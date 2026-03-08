@@ -8,6 +8,9 @@ import { invertColorWithBrightness } from "../../../entities/note/utils/invertCo
 import { useNavigation } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { AppStackParamList } from "../../../app/providers/navigation/types";
+import { useState } from "react";
+import { DefaultMenu } from "../../../shared";
+import { RedactorMenu } from "./RedactorMenu/RedactorMenu";
 
 interface NoteRedactorHeaderProps {
     noteData: Note | undefined;
@@ -16,6 +19,8 @@ interface NoteRedactorHeaderProps {
 export default function NoteRedactorHeader({
     noteData,
 }: NoteRedactorHeaderProps) {
+    const [isMenuOpen, setMenuOpen] = useState(false);
+
     const color = invertColorWithBrightness(
         noteData ? noteData.color : "#ffffff",
         0.3,
@@ -37,10 +42,19 @@ export default function NoteRedactorHeader({
                 <Pressable style={s.button}>
                     <PaletteIcon height={26} width={26} color={color} />
                 </Pressable>
-                <Pressable style={s.button}>
+                <Pressable style={s.button} onPress={() => setMenuOpen(true)}>
                     <OptionsIcon height={20} width={20} color={color} />
                 </Pressable>
             </View>
+
+            {isMenuOpen && noteData && (
+                <DefaultMenu setMenuIsOpen={setMenuOpen}>
+                    <RedactorMenu
+                        navigation={navigation}
+                        noteId={noteData.id}
+                    />
+                </DefaultMenu>
+            )}
         </View>
     );
 }
