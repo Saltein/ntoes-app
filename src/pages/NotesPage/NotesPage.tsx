@@ -21,10 +21,12 @@ export function NotesPage() {
         isLoading,
         isFetching,
         error,
+        refetch,
     } = useGetMyNotesQuery();
 
     useFocusEffect(() => {
         setShowHeader(true);
+        refetch();
         return () => {
             setShowHeader(false);
         };
