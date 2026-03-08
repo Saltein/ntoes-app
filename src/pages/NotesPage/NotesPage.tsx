@@ -8,7 +8,7 @@ import { Header } from "../../widgets";
 import { useGetMeMutation } from "../../features/auth/model/authApiSlice";
 import { Portal } from "react-native-paper";
 import { LinearGradient } from "expo-linear-gradient";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { useGetMyNotesQuery } from "../../features/notes/model/notesApiSlice";
 import { useFocusEffect } from "@react-navigation/native";
 import { NewNoteButton } from "./NewNoteButton/NewNoteButton";
@@ -21,16 +21,22 @@ export function NotesPage() {
         isLoading,
         isFetching,
         error,
+        isError,
         refetch,
     } = useGetMyNotesQuery();
 
-    useFocusEffect(() => {
-        setShowHeader(true);
-        refetch();
-        return () => {
-            setShowHeader(false);
-        };
-    });
+    useFocusEffect(
+        useCallback(() => {
+            console.log("Screen focused");
+            setShowHeader(true);
+            refetch();
+
+            return () => {
+                console.log("Screen unfocused");
+                setShowHeader(false);
+            };
+        }, [refetch]),
+    );
 
     useEffect(() => {
         getMe();
@@ -44,6 +50,9 @@ export function NotesPage() {
                 </Portal>
             )}
             {isFetching || (isLoading && <DefaultText>Loading...</DefaultText>)}
+            {isError && (
+                <DefaultText>Ошибка: {JSON.stringify(error)}</DefaultText>
+            )}
             {/* TODO сделать заглушку */}
             {notesData && (
                 <MasonryList

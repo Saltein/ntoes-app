@@ -16,7 +16,7 @@ export const s = StyleSheet.create({
     profile: {
         backgroundColor: styles.colors.button,
         color: styles.colors.textBrightMain,
-        borderRadius: styles.radius.md,
+        borderRadius: styles.radius.xxl,
         paddingHorizontal: styles.spacing.md,
         height: 48,
         textAlign: "center",

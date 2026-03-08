@@ -15,7 +15,7 @@ export function NewNoteButton() {
     const navigation =
         useNavigation<NativeStackNavigationProp<AppStackParamList>>();
     const dispatch = useDispatch();
-    const [createNote, { data, isLoading, isError }] = useCreateNoteMutation();
+    const [createNote, { isLoading }] = useCreateNoteMutation();
 
     const newNoteTamplate = {
         title: "",
@@ -25,17 +25,26 @@ export function NewNoteButton() {
     } as Note;
 
     async function handleNewNote() {
-        await createNote(newNoteTamplate);
+        try {
+            const createdNote = await createNote(newNoteTamplate).unwrap();
+            console.log("createdNote", JSON.stringify(createdNote));
 
-        if (data) {
-            dispatch(setCurrentNote(newNoteTamplate));
+            dispatch(setCurrentNote(createdNote)); // Используем созданную заметку
             navigation.navigate("NoteRedactor");
-            console.log(data);
+        } catch (error) {
+            console.error("Failed to create note:", error);
         }
     }
 
     return (
         <Pressable style={s.newNoteButton} onPress={handleNewNote}>
+            {isLoading && (
+                <AddIcon
+                    width={48}
+                    height={48}
+                    color={styles.colors.textBrightMain}
+                />
+            )}
             <AddIcon
                 width={48}
                 height={48}
