@@ -1,13 +1,20 @@
+import { invertColorWithBrightness } from "../../entities/note/utils/invertColorWithBrigtness";
+
+const mainColor = "#ebe1cc";
+const invertedMainColor = invertColorWithBrightness(mainColor, 0.3);
+const invertedMainColorBright = invertColorWithBrightness(mainColor, 0.9);
+
 export const styles = {
     colors: {
-        backgroundMain: "#ffffff",
-        backgroundSurface: "#74c3ff33",
-        textMain: "#74c3ff",
-        textMuted: "#74c3ff99",
-        textBrightMain: "#e4f6fc",
-        textBrightMuted: "#e4f6fc99",
-        border: "#74c3ff",
-        button: "#74c3ff",
+        backgroundMain: mainColor,
+        backgroundSurface: `${invertedMainColor}33`,
+        backgroundItems: "#fafafa",
+        textMain: invertedMainColor,
+        textMuted: `${invertedMainColor}99`,
+        textBrightMain: invertedMainColorBright,
+        textBrightMuted: `${invertedMainColorBright}99`,
+        border: invertedMainColor,
+        button: invertedMainColor,
 
         error: "#EF4444",
         errorBack: "#ffeaea",

@@ -9,7 +9,7 @@ export const s = StyleSheet.create({
         paddingHorizontal: styles.spacing.sm,
         paddingVertical: styles.spacing.xs,
         margin: styles.spacing.xs,
-        backgroundColor: styles.colors.backgroundMain,
+        backgroundColor: styles.colors.backgroundItems,
         borderWidth: 2,
         borderRadius: styles.radius.md,
         elevation: 6,

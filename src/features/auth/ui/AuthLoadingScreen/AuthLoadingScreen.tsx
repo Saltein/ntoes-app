@@ -25,6 +25,7 @@ export function AuthLoadingScreen() {
                 justifyContent: "center",
                 alignItems: "center",
                 flex: 1,
+                backgroundColor: styles.colors.backgroundMain,
             }}
         >
             <View

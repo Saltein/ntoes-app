@@ -8,10 +8,12 @@ import { Header } from "../../widgets";
 import { useGetMeMutation } from "../../features/auth/model/authApiSlice";
 import { Portal } from "react-native-paper";
 import { LinearGradient } from "expo-linear-gradient";
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import { useGetMyNotesQuery } from "../../features/notes/model/notesApiSlice";
 import { useFocusEffect } from "@react-navigation/native";
 import { NewNoteButton } from "./NewNoteButton/NewNoteButton";
+import { useSelector } from "react-redux";
+import { selectSearchQuery } from "../../features/search/model/slice";
 
 export function NotesPage() {
     const [getMe, { data }] = useGetMeMutation();
@@ -24,6 +26,8 @@ export function NotesPage() {
         isError,
         refetch,
     } = useGetMyNotesQuery();
+
+    const searchQuery = useSelector(selectSearchQuery);
 
     useFocusEffect(
         useCallback(() => {
@@ -42,6 +46,25 @@ export function NotesPage() {
         getMe();
     }, []);
 
+    const filteredNotes = useMemo(() => {
+        if (!notesData?.data) return [];
+
+        let filtered = [...notesData.data].sort((a, b) =>
+            b.updated_at.localeCompare(a.updated_at),
+        );
+
+        if (searchQuery.trim()) {
+            const query = searchQuery.toLowerCase().trim();
+            filtered = filtered.filter(
+                (note) =>
+                    note.title.toLowerCase().includes(query) ||
+                    note.content.toLowerCase().includes(query),
+            );
+        }
+
+        return filtered;
+    }, [notesData, searchQuery]);
+
     return (
         <View style={s.container}>
             {showHeader && (
@@ -56,9 +79,7 @@ export function NotesPage() {
             {/* TODO сделать заглушку */}
             {notesData && (
                 <MasonryList
-                    data={[...notesData.data].sort((a, b) =>
-                        b.updated_at.localeCompare(a.updated_at),
-                    )}
+                    data={filteredNotes}
                     numColumns={2}
                     style={{
                         gap: styles.spacing.xs,

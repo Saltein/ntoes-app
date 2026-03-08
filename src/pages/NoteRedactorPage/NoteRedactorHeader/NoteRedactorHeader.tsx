@@ -1,4 +1,4 @@
-import { FlatList, Pressable, View } from "react-native";
+import { Pressable, View } from "react-native";
 import { s } from "./NoteRedactorHeaderStyles";
 import BackIcon from "../../../shared/assets/icons/back.svg";
 import PaletteIcon from "../../../shared/assets/icons/palette.svg";
@@ -9,9 +9,9 @@ import { useNavigation } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { AppStackParamList } from "../../../app/providers/navigation/types";
 import { useState } from "react";
-import { DefaultMenu, DefaultText, styles } from "../../../shared";
+import { DefaultMenu } from "../../../shared";
 import { RedactorMenu } from "./RedactorMenu/RedactorMenu";
-import { pastelColors } from "../../../shared/consts";
+import { ColorsMenu } from "./ColorsMenu/ColorsMenu";
 
 interface NoteRedactorHeaderProps {
     noteData: Note | undefined;
@@ -26,8 +26,6 @@ export function NoteRedactorHeader({
 }: NoteRedactorHeaderProps) {
     const [isMenuOpen, setMenuOpen] = useState(false);
     const [isColorPeekOpen, setColorPeekOpen] = useState(false);
-
-    const noteColors = pastelColors;
 
     const color = invertColorWithBrightness(
         noteData ? noteData.color : "#ffffff",
@@ -62,40 +60,10 @@ export function NoteRedactorHeader({
 
             {isColorPeekOpen && noteData && (
                 <DefaultMenu setMenuIsOpen={setColorPeekOpen}>
-                    <View
-                        style={[
-                            s.colorPeekCon,
-                            {
-                                borderColor: invertColorWithBrightness(
-                                    noteData.color,
-                                    0.3,
-                                ),
-                            },
-                        ]}
-                    >
-                        <FlatList
-                            data={noteColors}
-                            horizontal={true}
-                            contentContainerStyle={{
-                                gap: styles.spacing.xs,
-                                marginHorizontal: styles.spacing.sm,
-                            }}
-                            renderItem={({ item }) => {
-                                return (
-                                    <Pressable
-                                        onPress={() => onColorChange(item)}
-                                        style={[
-                                            s.colorBox,
-                                            {
-                                                backgroundColor: item,
-                                            },
-                                        ]}
-                                    />
-                                );
-                            }}
-                            keyExtractor={(item) => item}
-                        />
-                    </View>
+                    <ColorsMenu
+                        noteColor={noteData.color}
+                        onColorChange={onColorChange}
+                    />
                 </DefaultMenu>
             )}
 

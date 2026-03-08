@@ -6,7 +6,7 @@ export const s = StyleSheet.create({
         position: "absolute",
         top: 64,
         right: styles.spacing.xs,
-        backgroundColor: styles.colors.backgroundMain,
+        backgroundColor: styles.colors.backgroundItems,
         borderWidth: 2,
         borderColor: styles.colors.error,
         borderRadius: styles.radius.md,

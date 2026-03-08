@@ -11,7 +11,7 @@ export const s = StyleSheet.create({
         borderRadius: styles.radius.xxl,
         paddingLeft: styles.spacing.sm,
         height: 48,
-        backgroundColor: styles.colors.backgroundMain,
+        backgroundColor: styles.colors.backgroundItems,
         elevation: 6,
     },
 
