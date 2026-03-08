@@ -54,7 +54,7 @@ export function NoteRedactorPage() {
         }
         const updatedNote = {
             ...noteData,
-            title: newTitle,
+            title: newTitle.trim(),
         } as Note;
         dispatch(setCurrentNote(updatedNote));
         debouncedSave(updatedNote);
@@ -66,7 +66,7 @@ export function NoteRedactorPage() {
         }
         const updatedNote = {
             ...noteData,
-            content: newContent,
+            content: newContent.trim(),
         } as Note;
         dispatch(setCurrentNote(updatedNote));
         debouncedSave(updatedNote);
@@ -94,6 +94,9 @@ export function NoteRedactorPage() {
                 placeholder="Название"
                 value={title}
                 onChangeText={handleTitleChange}
+                maxLength={255}
+                multiline={true}
+                submitBehavior="blurAndSubmit"
                 style={{
                     color: invertColorWithBrightness(color, 0.3),
                     fontSize: 22,
@@ -106,13 +109,18 @@ export function NoteRedactorPage() {
                 placeholder="Текст"
                 value={content}
                 onChangeText={handleContentChange}
+                maxLength={200000}
+                multiline={true}
                 style={{
                     color: invertColorWithBrightness(color, 0.3),
+                    flex: 1,
+                    textAlignVertical: "top",
                 }}
                 placeholderTextColor={
                     invertColorWithBrightness(color, 0.3) + "99"
                 }
             />
+
             {isSaving && (
                 <DefaultText
                     style={{
