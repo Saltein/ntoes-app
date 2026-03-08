@@ -5,35 +5,51 @@ import { useDeleteNoteMutation } from "../../../../features/notes/model/notesApi
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { AppStackParamList } from "../../../../app/providers/navigation/types";
 import TrashIcon from "../../../../shared/assets/icons/trash.svg";
+import { invertColorWithBrightness } from "../../../../entities/note/utils/invertColorWithBrigtness";
 
 interface RedactorMenuProps {
     noteId: number;
+    noteColor: string;
     navigation: NativeStackNavigationProp<AppStackParamList>;
 }
 
-export function RedactorMenu({ noteId, navigation }: RedactorMenuProps) {
-    const [deleteNote, { data, isLoading, isError, error }] =
-        useDeleteNoteMutation();
+export function RedactorMenu({
+    noteId,
+    noteColor,
+    navigation,
+}: RedactorMenuProps) {
+    const [deleteNote] = useDeleteNoteMutation();
 
     async function handleDeleteNote() {
-        await deleteNote(noteId);
-        if (data) {
+        try {
+            const deletedNote = await deleteNote(noteId);
             navigation.goBack();
+        } catch (error) {
+            console.error("Failed to delete note:", error);
         }
     }
 
     return (
-        <View style={s.container}>
-            <Pressable
-                onPress={handleDeleteNote}
-                style={s.pressableCon}
-            >
+        <View
+            style={[
+                s.container,
+                { borderColor: invertColorWithBrightness(noteColor, 0.3) },
+            ]}
+        >
+            <Pressable onPress={handleDeleteNote} style={s.pressableCon}>
                 <TrashIcon
                     height={24}
                     width={24}
-                    color={styles.colors.textMain}
+                    color={invertColorWithBrightness(noteColor, 0.3)}
                 />
-                <DefaultText style={s.deleteText}>Удалить</DefaultText>
+                <DefaultText
+                    style={[
+                        s.deleteText,
+                        { color: invertColorWithBrightness(noteColor, 0.3) },
+                    ]}
+                >
+                    Удалить
+                </DefaultText>
             </Pressable>
         </View>
     );

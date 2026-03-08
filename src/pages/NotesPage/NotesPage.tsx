@@ -56,7 +56,9 @@ export function NotesPage() {
             {/* TODO сделать заглушку */}
             {notesData && (
                 <MasonryList
-                    data={notesData.data}
+                    data={[...notesData.data].sort((a, b) =>
+                        b.updated_at.localeCompare(a.updated_at),
+                    )}
                     numColumns={2}
                     style={{
                         gap: styles.spacing.xs,

@@ -29,7 +29,7 @@ export function NewNoteButton() {
             const createdNote = await createNote(newNoteTamplate).unwrap();
             console.log("createdNote", JSON.stringify(createdNote));
 
-            dispatch(setCurrentNote(createdNote)); // Используем созданную заметку
+            dispatch(setCurrentNote(createdNote));
             navigation.navigate("NoteRedactor");
         } catch (error) {
             console.error("Failed to create note:", error);

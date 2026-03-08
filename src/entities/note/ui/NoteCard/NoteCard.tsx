@@ -14,7 +14,7 @@ interface NoteCardProps {
 }
 
 export function NoteCard({ data }: NoteCardProps) {
-    const { color, content, title } = data;
+    const { color, content, title, updated_at } = data;
 
     const dispatch = useDispatch();
 

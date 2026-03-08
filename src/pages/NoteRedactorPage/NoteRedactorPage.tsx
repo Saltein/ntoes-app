@@ -32,7 +32,7 @@ export function NoteRedactorPage() {
             }
         },
         {
-            delay: 1000, // Сохраняем через 1 секунду после остановки печати
+            delay: 500,
             onSave: () => {
                 console.log("Note saved successfully");
             },
@@ -49,7 +49,6 @@ export function NoteRedactorPage() {
     const { id, title, content, color, is_public } = noteData;
 
     function handleTitleChange(newTitle: string) {
-        // Проблема на сервере при редактировании, ждем патча
         if (!noteData) {
             return null;
         }
@@ -62,7 +61,6 @@ export function NoteRedactorPage() {
     }
 
     function handleContentChange(newContent: string) {
-        // Проблема на сервере при редактировании, ждем патча
         if (!noteData) {
             return null;
         }
@@ -74,9 +72,24 @@ export function NoteRedactorPage() {
         debouncedSave(updatedNote);
     }
 
+    function handleColorChange(newColor: string) {
+        if (!noteData) {
+            return null;
+        }
+        const updatedNote = {
+            ...noteData,
+            color: newColor,
+        } as Note;
+        dispatch(setCurrentNote(updatedNote));
+        debouncedSave(updatedNote);
+    }
+
     return (
         <View style={[s.container, { backgroundColor: color }]}>
-            <NoteRedactorHeader noteData={noteData} />
+            <NoteRedactorHeader
+                onColorChange={handleColorChange}
+                noteData={noteData}
+            />
             <DefaultTextInput
                 placeholder="Название"
                 value={title}
@@ -100,12 +113,15 @@ export function NoteRedactorPage() {
                     invertColorWithBrightness(color, 0.3) + "99"
                 }
             />
-            {isSaving && <DefaultText>Saving...</DefaultText>}
-            {lastSaved && <DefaultText>Last saved</DefaultText>}
+            {isSaving && (
+                <DefaultText
+                    style={{
+                        color: invertColorWithBrightness(color, 0.3) + "99",
+                    }}
+                >
+                    Saving...
+                </DefaultText>
+            )}
         </View>
     );
-    // При нажатии на кнопу новой заметки сразу создавалась новая заметка,
-    // ее id должен как то попадать в currentNote в редукс (а, ну в ответе сервера будет id), потом открывался редактор этой заметки
-    // Нужно чтобы запрос на редактирование заметки прилетал по дебаунсу
-    // Сделать индикатор сохранения данных
 }
