@@ -10,7 +10,7 @@ import { invertColorWithBrightness } from "../../entities/note/utils/invertColor
 import { useDispatch } from "react-redux";
 import { Note } from "../../entities/note/model/types";
 import { useUpdateNoteMutation } from "../../features/notes/model/notesApiSlice";
-import NoteRedactorHeader from "./NoteRedactorHeader/NoteRedactorHeader";
+import { NoteRedactorHeader } from "./NoteRedactorHeader/NoteRedactorHeader";
 
 export function NoteRedactorPage() {
     const noteData = useSelector(selectCurrentNote);
@@ -89,6 +89,7 @@ export function NoteRedactorPage() {
             <NoteRedactorHeader
                 onColorChange={handleColorChange}
                 noteData={noteData}
+                debouncedSave={debouncedSave}
             />
             <DefaultTextInput
                 placeholder="Название"

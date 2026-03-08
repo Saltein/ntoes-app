@@ -13,10 +13,12 @@ export const s = StyleSheet.create({
         borderWidth: 2,
         borderRadius: styles.radius.md,
         elevation: 6,
+        gap: styles.spacing.xs,
     },
     pressableCon: {
         flexDirection: "row",
-        justifyContent: "center",
+        width: "100%",
+        height: 32,
         alignItems: "center",
         gap: styles.spacing.xs,
     },

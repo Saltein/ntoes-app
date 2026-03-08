@@ -16,11 +16,13 @@ import { pastelColors } from "../../../shared/consts";
 interface NoteRedactorHeaderProps {
     noteData: Note | undefined;
     onColorChange: (newColor: string) => void;
+    debouncedSave: (data: Note) => void;
 }
 
-export default function NoteRedactorHeader({
+export function NoteRedactorHeader({
     noteData,
     onColorChange,
+    debouncedSave,
 }: NoteRedactorHeaderProps) {
     const [isMenuOpen, setMenuOpen] = useState(false);
     const [isColorPeekOpen, setColorPeekOpen] = useState(false);
@@ -100,9 +102,10 @@ export default function NoteRedactorHeader({
             {isMenuOpen && noteData && (
                 <DefaultMenu setMenuIsOpen={setMenuOpen}>
                     <RedactorMenu
+                        setMenuOpen={setMenuOpen}
                         navigation={navigation}
-                        noteId={noteData.id}
-                        noteColor={noteData.color}
+                        noteData={noteData}
+                        debouncedSave={debouncedSave}
                     />
                 </DefaultMenu>
             )}
