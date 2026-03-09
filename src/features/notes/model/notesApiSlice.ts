@@ -5,6 +5,7 @@ import {
     DeleteNoteResponse,
     GetMyNotesResponse,
     GetOneNoteResponse,
+    GetPublicNotesResponse,
     UpdateNoteParams,
     UpdateNoteResponse,
 } from "./types";
@@ -46,6 +47,11 @@ export const notesApi = createApi({
                 url: "notes",
             }),
         }),
+        getPublicNotes: builder.query<GetPublicNotesResponse, number>({
+            query: (page) => ({
+                url: `notes/public/${page}`,
+            }),
+        }),
         deleteNote: builder.mutation<DeleteNoteResponse, number>({
             query: (id) => ({
                 url: `notes/${id}`,
@@ -66,6 +72,7 @@ export const {
     useCreateNoteMutation,
     useGetOneNoteQuery,
     useGetMyNotesQuery,
+    useGetPublicNotesQuery,
     useDeleteNoteMutation,
     useUpdateNoteMutation,
 } = notesApi;

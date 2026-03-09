@@ -1,4 +1,10 @@
 export type AppStackParamList = {
     Notes: undefined;
-    NoteRedactor: undefined;
+    MainTabs: undefined;
+    NoteRedactor: {
+        isPublic?: boolean;
+    };
+    NoteRedactorPublic: {
+        isPublic?: boolean;
+    };
 };

@@ -21,15 +21,7 @@ export function Header({ data }: HeaderProps) {
 
     return (
         <View style={s.container}>
-            <LinearGradient
-                colors={[styles.colors.backgroundMain, "transparent"]}
-                style={{
-                    height: "150%",
-                    width: "200%",
-                    position: "absolute",
-                    top: styles.spacing.xs,
-                }}
-            />
+
             <SearchBar />
             <Pressable onPress={toggleMenuOpen}>
                 <DefaultText style={s.profile}>

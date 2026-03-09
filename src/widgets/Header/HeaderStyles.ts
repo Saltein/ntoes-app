@@ -4,8 +4,8 @@ import { styles } from "../../shared";
 export const s = StyleSheet.create({
     container: {
         position: "absolute",
+        left: styles.spacing.xs,
         zIndex: 10,
-        paddingHorizontal: styles.spacing.xs,
         paddingVertical: styles.spacing.xs,
         flexDirection: "row",
         alignItems: "center",

@@ -11,9 +11,10 @@ import { setCurrentNote } from "../../model/slice";
 
 interface NoteCardProps {
     data: Note;
+    isPublic: boolean;
 }
 
-export function NoteCard({ data }: NoteCardProps) {
+export function NoteCard({ data, isPublic }: NoteCardProps) {
     const { color, content, title, updated_at } = data;
 
     const dispatch = useDispatch();
@@ -23,7 +24,7 @@ export function NoteCard({ data }: NoteCardProps) {
 
     function handleOpenNote() {
         dispatch(setCurrentNote(data));
-        navigation.navigate("NoteRedactor");
+        navigation.navigate("NoteRedactor", { isPublic: isPublic });
     }
 
     return (

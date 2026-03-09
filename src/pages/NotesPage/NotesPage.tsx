@@ -9,15 +9,34 @@ import { useGetMeMutation } from "../../features/auth/model/authApiSlice";
 import { Portal } from "react-native-paper";
 import { LinearGradient } from "expo-linear-gradient";
 import { useCallback, useEffect, useMemo, useState } from "react";
-import { useGetMyNotesQuery } from "../../features/notes/model/notesApiSlice";
+import {
+    useGetMyNotesQuery,
+    useGetPublicNotesQuery,
+} from "../../features/notes/model/notesApiSlice";
 import { useFocusEffect } from "@react-navigation/native";
 import { NewNoteButton } from "./NewNoteButton/NewNoteButton";
 import { useSelector } from "react-redux";
 import { selectSearchQuery } from "../../features/search/model/slice";
 
-export function NotesPage() {
+interface NotesPageProps {
+    isPublic?: boolean;
+}
+
+export function NotesPage({ isPublic = false }: NotesPageProps) {
     const [getMe, { data }] = useGetMeMutation();
-    const [showHeader, setShowHeader] = useState(true);
+    const [currentPage, setCurrentPage] = useState(1);
+
+    const {
+        data: publicData,
+        isLoading: publicLoading,
+        isFetching: publicFetching,
+        error: publicError,
+        isError: publicIsError,
+        refetch: publicRefetch,
+    } = useGetPublicNotesQuery(currentPage, {
+        skip: !isPublic,
+    });
+
     const {
         data: notesData,
         isLoading,
@@ -25,21 +44,20 @@ export function NotesPage() {
         error,
         isError,
         refetch,
-    } = useGetMyNotesQuery();
+    } = useGetMyNotesQuery(undefined, {
+        skip: isPublic,
+    });
 
     const searchQuery = useSelector(selectSearchQuery);
 
     useFocusEffect(
         useCallback(() => {
-            console.log("Screen focused");
-            setShowHeader(true);
-            refetch();
-
-            return () => {
-                console.log("Screen unfocused");
-                setShowHeader(false);
-            };
-        }, [refetch]),
+            if (isPublic) {
+                publicRefetch();
+            } else {
+                refetch();
+            }
+        }, [isPublic, refetch, publicRefetch]),
     );
 
     useEffect(() => {
@@ -47,9 +65,10 @@ export function NotesPage() {
     }, []);
 
     const filteredNotes = useMemo(() => {
-        if (!notesData?.data) return [];
+        const sourceData = isPublic ? publicData : notesData;
+        if (!sourceData?.data) return [];
 
-        let filtered = [...notesData.data].sort((a, b) =>
+        let filtered = [...sourceData.data].sort((a, b) =>
             b.updated_at.localeCompare(a.updated_at),
         );
 
@@ -63,31 +82,44 @@ export function NotesPage() {
         }
 
         return filtered;
-    }, [notesData, searchQuery]);
+    }, [notesData, publicData, searchQuery, isPublic]);
+
+    const loading = isPublic
+        ? publicLoading || publicFetching
+        : isLoading || isFetching;
+    const hasError = isPublic ? publicIsError : isError;
+    const errorData = isPublic ? publicError : error;
 
     return (
         <View style={s.container}>
-            {showHeader && (
-                <Portal>
-                    <Header data={data?.user} />
-                </Portal>
-            )}
-            {isFetching || (isLoading && <DefaultText>Loading...</DefaultText>)}
-            {isError && (
-                <DefaultText>Ошибка: {JSON.stringify(error)}</DefaultText>
+            {!isPublic && <Header data={data?.user} />}
+            <LinearGradient
+                colors={[styles.colors.backgroundMain, "transparent"]}
+                style={{
+                    height: isPublic ? styles.spacing.xs : 64,
+                    zIndex: 5,
+                    width: "200%",
+                    position: "absolute",
+                    top: styles.spacing.xs,
+                }}
+            />
+            {hasError && (
+                <DefaultText>Ошибка: {JSON.stringify(errorData)}</DefaultText>
             )}
             {/* TODO сделать заглушку */}
-            {notesData && (
+            {(isPublic ? publicData : notesData) && (
                 <MasonryList
                     data={filteredNotes}
                     numColumns={2}
                     style={{
                         gap: styles.spacing.xs,
-                        paddingVertical: 48 + styles.spacing.xs,
+                        paddingVertical: isPublic
+                            ? styles.spacing.xs
+                            : 48 + styles.spacing.xs,
                     }}
                     renderItem={({ item }) => {
                         const note = item as Note;
-                        return <NoteCard data={note} />;
+                        return <NoteCard data={note} isPublic={isPublic} />;
                     }}
                     keyExtractor={(item) => (item as Note).id.toString()}
                 />
@@ -101,7 +133,7 @@ export function NotesPage() {
                     bottom: 8,
                 }}
             />
-            <NewNoteButton />
+            {!isPublic && <NewNoteButton />}
         </View>
     );
 }

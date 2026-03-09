@@ -17,12 +17,14 @@ interface NoteRedactorHeaderProps {
     noteData: Note | undefined;
     onColorChange: (newColor: string) => void;
     debouncedSave: (data: Note) => void;
+    isPublic: boolean;
 }
 
 export function NoteRedactorHeader({
     noteData,
     onColorChange,
     debouncedSave,
+    isPublic,
 }: NoteRedactorHeaderProps) {
     const [isMenuOpen, setMenuOpen] = useState(false);
     const [isColorPeekOpen, setColorPeekOpen] = useState(false);
@@ -45,18 +47,23 @@ export function NoteRedactorHeader({
                 <BackIcon height={32} width={32} color={color} />
             </Pressable>
 
-            <View style={s.rightContainer}>
-                <Pressable
-                    style={s.button}
-                    onPress={() => setColorPeekOpen(true)}
-                >
-                    <PaletteIcon height={26} width={26} color={color} />
-                </Pressable>
+            {!isPublic && (
+                <View style={s.rightContainer}>
+                    <Pressable
+                        style={s.button}
+                        onPress={() => setColorPeekOpen(true)}
+                    >
+                        <PaletteIcon height={26} width={26} color={color} />
+                    </Pressable>
 
-                <Pressable style={s.button} onPress={() => setMenuOpen(true)}>
-                    <OptionsIcon height={20} width={20} color={color} />
-                </Pressable>
-            </View>
+                    <Pressable
+                        style={s.button}
+                        onPress={() => setMenuOpen(true)}
+                    >
+                        <OptionsIcon height={20} width={20} color={color} />
+                    </Pressable>
+                </View>
+            )}
 
             {isColorPeekOpen && noteData && (
                 <DefaultMenu setMenuIsOpen={setColorPeekOpen}>

@@ -4,7 +4,7 @@ import { styles } from "../../../../shared";
 export const s = StyleSheet.create({
     container: {
         position: "absolute",
-        top: 64,
+        top: 88,
         right: styles.spacing.xs,
         backgroundColor: styles.colors.backgroundItems,
         borderWidth: 2,

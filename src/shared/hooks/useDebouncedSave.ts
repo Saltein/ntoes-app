@@ -6,7 +6,13 @@ interface UseDebouncedSaveOptions {
     onError?: (error: Error) => void;
 }
 
-export function useDebouncedSave<T>(
+interface DataWithTitleContent {
+    title?: string;
+    content?: string;
+    [key: string]: any;
+}
+
+export function useDebouncedSave<T extends DataWithTitleContent>(
     saveFunction: (data: T) => Promise<void>,
     options: UseDebouncedSaveOptions = {},
 ) {
@@ -18,9 +24,27 @@ export function useDebouncedSave<T>(
     );
     const pendingDataRef = useRef<T | null>(null);
 
+    const processData = useCallback((data: T): T => {
+        const processedData = { ...data };
+
+        if (processedData.title !== undefined && processedData.title !== null) {
+            processedData.title = processedData.title.trim();
+        }
+
+        if (
+            processedData.content !== undefined &&
+            processedData.content !== null
+        ) {
+            processedData.content = processedData.content.trim();
+        }
+
+        return processedData;
+    }, []);
+
     const debouncedSave = useCallback(
         (data: T) => {
-            pendingDataRef.current = data;
+            const processedData = processData(data);
+            pendingDataRef.current = processedData;
 
             if (timeoutRef.current) {
                 clearTimeout(timeoutRef.current);
@@ -42,7 +66,7 @@ export function useDebouncedSave<T>(
                 }
             }, delay);
         },
-        [delay, saveFunction, onSave, onError],
+        [delay, saveFunction, onSave, onError, processData],
     );
 
     const cancel = useCallback(() => {

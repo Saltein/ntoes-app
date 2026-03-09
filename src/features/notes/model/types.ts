@@ -15,6 +15,10 @@ export interface GetMyNotesResponse {
     data: Note[];
 }
 
+export interface GetPublicNotesResponse {
+    data: Note[];
+}
+
 export interface DeleteNoteResponse {
     id: number;
 }
