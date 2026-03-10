@@ -293,7 +293,7 @@ export function NoteRedactorPage({ route }: NoteRedactorPageProps) {
                             placeholder="Текст"
                             value={content}
                             onChangeText={handleContentChange}
-                            maxLength={200000}
+                            maxLength={20000}
                             multiline
                             onLayout={(e) => handleInputLayout("content", e)}
                             onContentSizeChange={(e) =>

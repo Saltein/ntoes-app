@@ -8,7 +8,6 @@ import { AppStackParamList } from "../../../app/providers/navigation/types";
 import { useDispatch } from "react-redux";
 import { setCurrentNote } from "../../../entities/note/model/slice";
 import { useCreateNoteMutation } from "../../../features/notes/model/notesApiSlice";
-import { useEffect } from "react";
 import { Note } from "../../../entities/note/model/types";
 
 export function NewNoteButton() {
@@ -30,7 +29,7 @@ export function NewNoteButton() {
             console.log("createdNote", JSON.stringify(createdNote));
 
             dispatch(setCurrentNote(createdNote));
-            navigation.navigate("NoteRedactor");
+            navigation.navigate("NoteRedactor", { isPublic: false });
         } catch (error) {
             console.error("Failed to create note:", error);
         }
@@ -38,13 +37,6 @@ export function NewNoteButton() {
 
     return (
         <Pressable style={s.newNoteButton} onPress={handleNewNote}>
-            {isLoading && (
-                <AddIcon
-                    width={48}
-                    height={48}
-                    color={styles.colors.textBrightMain}
-                />
-            )}
             <AddIcon
                 width={48}
                 height={48}
