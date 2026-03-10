@@ -9,7 +9,9 @@ import { tokenStorage } from "../../../shared/lib/storage/tokenStorage";
 import { createSlice } from "@reduxjs/toolkit";
 import { RootState } from "../../../app/store";
 
-const baseUrl = process.env.EXPO_PUBLIC_BASE_URL;
+import Constants from "expo-constants";
+
+const baseUrl = Constants.expoConfig?.extra?.apiBaseUrl || "http://90.156.202.223:3001/api/";
 
 const baseQuery = fetchBaseQuery({
     baseUrl,
@@ -67,9 +69,6 @@ export const {
 export const authReducer = authApi.reducer;
 export const authMiddleware = authApi.middleware;
 
-
-
-
 const initialState = {
     tokenTrigger: 0,
 };
@@ -87,4 +86,5 @@ export const tokenTriggerSlice = createSlice({
 export const { setTokenTrigger } = tokenTriggerSlice.actions;
 export const tokenTriggerReducer = tokenTriggerSlice.reducer;
 
-export const selectTokenTrigger = (state: RootState) => state.tokenTrigger.tokenTrigger;
+export const selectTokenTrigger = (state: RootState) =>
+    state.tokenTrigger.tokenTrigger;

@@ -11,7 +11,11 @@ import {
 } from "./types";
 import { tokenStorage } from "../../../shared/lib/storage/tokenStorage";
 
-const baseUrl = process.env.EXPO_PUBLIC_BASE_URL;
+import Constants from "expo-constants";
+
+const baseUrl =
+    Constants.expoConfig?.extra?.apiBaseUrl ||
+    "http://90.156.202.223:3001/api/";
 
 const baseQuery = fetchBaseQuery({
     baseUrl,
