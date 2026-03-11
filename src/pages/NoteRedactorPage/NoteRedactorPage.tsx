@@ -11,6 +11,7 @@ import { s } from "./NoteRedactorPageStyles";
 import { useSelector } from "react-redux";
 import {
     selectCurrentNote,
+    selectCurrentNoteNickname,
     setCurrentNote,
 } from "../../entities/note/model/slice";
 import { invertColorWithBrightness } from "../../entities/note/utils/invertColorWithBrightness";
@@ -29,6 +30,7 @@ interface NoteRedactorPageProps {
 
 export function NoteRedactorPage({ route }: NoteRedactorPageProps) {
     const noteData = useSelector(selectCurrentNote);
+    const noteNickname = useSelector(selectCurrentNoteNickname);
     const dispatch = useDispatch();
     const [updateNote] = useUpdateNoteMutation();
     const isPublic = route?.params?.isPublic ?? true;
@@ -221,6 +223,7 @@ export function NoteRedactorPage({ route }: NoteRedactorPageProps) {
                 noteData={noteData}
                 debouncedSave={debouncedSave}
                 isPublic={isPublic}
+                nickname={noteNickname}
             />
 
             <ScrollView

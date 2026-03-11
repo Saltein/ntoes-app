@@ -8,3 +8,8 @@ export type Note = {
     updated_at: string;
     is_public: boolean;
 };
+
+export type PublicNote = {
+    nickname: string;
+    note: Note;
+};

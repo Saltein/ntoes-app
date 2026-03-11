@@ -4,10 +4,12 @@ import { Note } from "./types";
 
 interface NoteState {
     currentNote: Note | null;
+    currentNoteNickname: string;
 }
 
 const initialState: NoteState = {
     currentNote: null,
+    currentNoteNickname: "",
 };
 
 export const noteSlice = createSlice({
@@ -17,10 +19,15 @@ export const noteSlice = createSlice({
         setCurrentNote: (state, action: PayloadAction<Note | null>) => {
             state.currentNote = action.payload;
         },
+        setCurrentNoteNickname: (state, action) => {
+            state.currentNoteNickname = action.payload;
+        },
     },
 });
 
-export const { setCurrentNote } = noteSlice.actions;
+export const { setCurrentNote, setCurrentNoteNickname } = noteSlice.actions;
 export const noteReducer = noteSlice.reducer;
 
 export const selectCurrentNote = (state: RootState) => state.note.currentNote;
+export const selectCurrentNoteNickname = (state: RootState) =>
+    state.note.currentNoteNickname;

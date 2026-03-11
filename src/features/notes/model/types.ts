@@ -1,4 +1,4 @@
-import { Note } from "../../../entities/note/model/types";
+import { Note, PublicNote } from "../../../entities/note/model/types";
 
 export interface CreateNoteParams {
     title: string;
@@ -16,7 +16,7 @@ export interface GetMyNotesResponse {
 }
 
 export interface GetPublicNotesResponse {
-    data: Note[];
+    data: PublicNote[];
 }
 
 export interface DeleteNoteResponse {

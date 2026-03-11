@@ -9,7 +9,7 @@ import { useNavigation } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { AppStackParamList } from "../../../app/providers/navigation/types";
 import { useState } from "react";
-import { DefaultMenu } from "../../../shared";
+import { DefaultMenu, DefaultText, styles } from "../../../shared";
 import { RedactorMenu } from "./RedactorMenu/RedactorMenu";
 import { ColorsMenu } from "./ColorsMenu/ColorsMenu";
 
@@ -18,6 +18,7 @@ interface NoteRedactorHeaderProps {
     onColorChange: (newColor: string) => void;
     debouncedSave: (data: Note) => void;
     isPublic: boolean;
+    nickname: string;
 }
 
 export function NoteRedactorHeader({
@@ -25,6 +26,7 @@ export function NoteRedactorHeader({
     onColorChange,
     debouncedSave,
     isPublic,
+    nickname,
 }: NoteRedactorHeaderProps) {
     const [isMenuOpen, setMenuOpen] = useState(false);
     const [isColorPeekOpen, setColorPeekOpen] = useState(false);
@@ -47,7 +49,13 @@ export function NoteRedactorHeader({
                 <BackIcon height={32} width={32} color={color} />
             </Pressable>
 
-            {!isPublic && (
+            {isPublic ? (
+                <DefaultText
+                    style={{ marginRight: styles.spacing.md, fontSize: 16, color: color }}
+                >
+                    @{nickname}
+                </DefaultText>
+            ) : (
                 <View style={s.rightContainer}>
                     <Pressable
                         style={s.button}

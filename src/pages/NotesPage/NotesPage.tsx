@@ -1,7 +1,7 @@
 import { View } from "react-native";
 import { s } from "./NotesPageStyles";
 import { NoteCard } from "../../entities";
-import { Note } from "../../entities/note/model/types";
+import { Note, PublicNote } from "../../entities/note/model/types";
 import MasonryList from "@react-native-seoul/masonry-list";
 import { DefaultText, styles, Warning } from "../../shared";
 import { Header } from "../../widgets";
@@ -29,8 +29,6 @@ export function NotesPage({ isPublic = false }: NotesPageProps) {
 
     const {
         data: publicData,
-        isLoading: publicLoading,
-        isFetching: publicFetching,
         error: publicError,
         isError: publicIsError,
         refetch: publicRefetch,
@@ -40,8 +38,6 @@ export function NotesPage({ isPublic = false }: NotesPageProps) {
 
     const {
         data: notesData,
-        isLoading,
-        isFetching,
         error,
         isError,
         refetch,
@@ -65,29 +61,41 @@ export function NotesPage({ isPublic = false }: NotesPageProps) {
         getMe();
     }, []);
 
+    type NoteListItem = {
+        note: Note;
+        nickname?: string;
+    };
+
     const filteredNotes = useMemo(() => {
         const sourceData = isPublic ? publicData : notesData;
         if (!sourceData?.data) return [];
 
-        let filtered = [...sourceData.data].sort((a, b) =>
-            b.updated_at.localeCompare(a.updated_at),
+        const normalized: NoteListItem[] = isPublic
+            ? (sourceData.data as PublicNote[]).map((item) => ({
+                  note: item.note,
+                  nickname: item.nickname,
+              }))
+            : (sourceData.data as Note[]).map((note) => ({
+                  note,
+              }));
+
+        let filtered = [...normalized].sort((a, b) =>
+            b.note.updated_at.localeCompare(a.note.updated_at),
         );
 
         if (searchQuery.trim()) {
             const query = searchQuery.toLowerCase().trim();
+
             filtered = filtered.filter(
-                (note) =>
-                    note.title.toLowerCase().includes(query) ||
-                    note.content.toLowerCase().includes(query),
+                (item) =>
+                    item.note.title.toLowerCase().includes(query) ||
+                    item.note.content.toLowerCase().includes(query),
             );
         }
 
         return filtered;
     }, [notesData, publicData, searchQuery, isPublic]);
 
-    const loading = isPublic
-        ? publicLoading || publicFetching
-        : isLoading || isFetching;
     const hasError = isPublic ? publicIsError : isError;
     const errorData = isPublic ? publicError : error;
 
@@ -107,22 +115,30 @@ export function NotesPage({ isPublic = false }: NotesPageProps) {
             {hasError && (
                 <Warning type={"error"} content={JSON.stringify(errorData)} />
             )}
-            {/* TODO сделать заглушку */}
             {(isPublic ? publicData : notesData) ? (
                 <MasonryList
                     data={filteredNotes}
                     numColumns={2}
                     style={{
                         gap: styles.spacing.xs,
-                        paddingVertical: isPublic
+                        paddingTop: isPublic
                             ? styles.spacing.xs
                             : 48 + styles.spacing.xs,
+                        paddingBottom: 48 + styles.spacing.xs,
                     }}
                     renderItem={({ item }) => {
-                        const note = item as Note;
-                        return <NoteCard data={note} isPublic={isPublic} />;
+                        const note = item as NoteListItem;
+                        return (
+                            <NoteCard
+                                data={note.note}
+                                nickname={note.nickname}
+                                isPublic={isPublic}
+                            />
+                        );
                     }}
-                    keyExtractor={(item) => (item as Note).id.toString()}
+                    keyExtractor={(item) =>
+                        (item as NoteListItem).note.id.toString()
+                    }
                 />
             ) : (
                 <MasonryList

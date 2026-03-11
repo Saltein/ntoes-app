@@ -7,16 +7,19 @@ import { useNavigation } from "@react-navigation/native";
 import { AppStackParamList } from "../../../../app/providers/navigation/types";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { useDispatch } from "react-redux";
-import { setCurrentNote } from "../../model/slice";
+import { setCurrentNote, setCurrentNoteNickname } from "../../model/slice";
 import EyeIcon from "../../../../shared/assets/icons/eye.svg";
 
 interface NoteCardProps {
     data: Note;
     isPublic: boolean;
+    nickname?: string;
 }
 
-export function NoteCard({ data, isPublic }: NoteCardProps) {
+export function NoteCard({ data, isPublic, nickname }: NoteCardProps) {
     const { color, content, title, updated_at, is_public } = data;
+
+    const textColor = invertColorWithBrightness(color, 0.3);
 
     const dispatch = useDispatch();
 
@@ -25,6 +28,9 @@ export function NoteCard({ data, isPublic }: NoteCardProps) {
 
     function handleOpenNote() {
         dispatch(setCurrentNote(data));
+        if (isPublic) {
+            dispatch(setCurrentNoteNickname(nickname));
+        }
         navigation.navigate("NoteRedactor", { isPublic: isPublic });
     }
 
@@ -34,7 +40,7 @@ export function NoteCard({ data, isPublic }: NoteCardProps) {
                 s.container,
                 {
                     backgroundColor: color,
-                    borderColor: invertColorWithBrightness(color, 0.3),
+                    borderColor: textColor,
                 },
             ]}
             onPress={handleOpenNote}
@@ -49,11 +55,7 @@ export function NoteCard({ data, isPublic }: NoteCardProps) {
                         borderRadius: styles.radius.sm,
                     }}
                 >
-                    <EyeIcon
-                        height={16}
-                        width={16}
-                        color={invertColorWithBrightness(color, 0.3)}
-                    />
+                    <EyeIcon height={16} width={16} color={textColor} />
                 </View>
             )}
 
@@ -61,10 +63,7 @@ export function NoteCard({ data, isPublic }: NoteCardProps) {
                 <DefaultText
                     numberOfLines={1}
                     ellipsizeMode="tail"
-                    style={[
-                        s.title,
-                        { color: invertColorWithBrightness(color, 0.3) },
-                    ]}
+                    style={[s.title, { color: textColor }]}
                 >
                     {title}
                 </DefaultText>
@@ -72,13 +71,23 @@ export function NoteCard({ data, isPublic }: NoteCardProps) {
             <DefaultText
                 numberOfLines={16}
                 ellipsizeMode="tail"
-                style={[
-                    s.content,
-                    { color: invertColorWithBrightness(color, 0.3) },
-                ]}
+                style={[s.content, { color: textColor }]}
             >
                 {content}
             </DefaultText>
+
+            {isPublic && nickname && (
+                <View
+                    style={{
+                        width: "100%",
+                        alignItems: "flex-end",
+                    }}
+                >
+                    <DefaultText style={{ color: textColor + "99" }}>
+                        @{nickname}
+                    </DefaultText>
+                </View>
+            )}
         </Pressable>
     );
 }
