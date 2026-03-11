@@ -3,12 +3,15 @@ import { styles } from "../../styles/styles";
 
 export const s = StyleSheet.create({
     container: {
+        alignSelf: "center",
         position: "absolute",
         paddingHorizontal: styles.spacing.sm,
         paddingVertical: styles.spacing.xs,
         borderRadius: styles.radius.xxl,
+        top: styles.spacing.sm,
         maxWidth: "90%",
         elevation: 4,
+        zIndex: 1000,
     },
 
     text: {

@@ -13,7 +13,7 @@ import {
     selectCurrentNote,
     setCurrentNote,
 } from "../../entities/note/model/slice";
-import { invertColorWithBrightness } from "../../entities/note/utils/invertColorWithBrigtness";
+import { invertColorWithBrightness } from "../../entities/note/utils/invertColorWithBrightness";
 import { useDispatch } from "react-redux";
 import { Note } from "../../entities/note/model/types";
 import { useUpdateNoteMutation } from "../../features/notes/model/notesApiSlice";

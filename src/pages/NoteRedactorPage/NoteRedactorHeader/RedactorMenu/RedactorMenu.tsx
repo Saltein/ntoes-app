@@ -4,7 +4,7 @@ import { s } from "./RedactorMenuStyles";
 import { useDeleteNoteMutation } from "../../../../features/notes/model/notesApiSlice";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { AppStackParamList } from "../../../../app/providers/navigation/types";
-import { invertColorWithBrightness } from "../../../../entities/note/utils/invertColorWithBrigtness";
+import { invertColorWithBrightness } from "../../../../entities/note/utils/invertColorWithBrightness";
 import TrashIcon from "../../../../shared/assets/icons/trash.svg";
 import EyeOpen from "../../../../shared/assets/icons/eye.svg";
 import EyeSlashed from "../../../../shared/assets/icons/eye-slash.svg";

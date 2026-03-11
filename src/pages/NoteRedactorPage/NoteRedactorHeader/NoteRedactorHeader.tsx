@@ -4,7 +4,7 @@ import BackIcon from "../../../shared/assets/icons/back.svg";
 import PaletteIcon from "../../../shared/assets/icons/palette.svg";
 import OptionsIcon from "../../../shared/assets/icons/options.svg";
 import { Note } from "../../../entities/note/model/types";
-import { invertColorWithBrightness } from "../../../entities/note/utils/invertColorWithBrigtness";
+import { invertColorWithBrightness } from "../../../entities/note/utils/invertColorWithBrightness";
 import { useNavigation } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { AppStackParamList } from "../../../app/providers/navigation/types";

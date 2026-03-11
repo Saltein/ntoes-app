@@ -3,7 +3,7 @@ import { s } from "./NotesPageStyles";
 import { NoteCard } from "../../entities";
 import { Note } from "../../entities/note/model/types";
 import MasonryList from "@react-native-seoul/masonry-list";
-import { DefaultText, styles } from "../../shared";
+import { DefaultText, styles, Warning } from "../../shared";
 import { Header } from "../../widgets";
 import { useGetMeMutation } from "../../features/auth/model/authApiSlice";
 import { Portal } from "react-native-paper";
@@ -17,6 +17,7 @@ import { useFocusEffect } from "@react-navigation/native";
 import { NewNoteButton } from "./NewNoteButton/NewNoteButton";
 import { useSelector } from "react-redux";
 import { selectSearchQuery } from "../../features/search/model/slice";
+import { Skeleton } from "../../shared/ui/Skeleton/Skeleton";
 
 interface NotesPageProps {
     isPublic?: boolean;
@@ -104,10 +105,10 @@ export function NotesPage({ isPublic = false }: NotesPageProps) {
                 }}
             />
             {hasError && (
-                <DefaultText>Ошибка: {JSON.stringify(errorData)}</DefaultText>
+                <Warning type={"error"} content={JSON.stringify(errorData)} />
             )}
             {/* TODO сделать заглушку */}
-            {(isPublic ? publicData : notesData) && (
+            {(isPublic ? publicData : notesData) ? (
                 <MasonryList
                     data={filteredNotes}
                     numColumns={2}
@@ -123,7 +124,38 @@ export function NotesPage({ isPublic = false }: NotesPageProps) {
                     }}
                     keyExtractor={(item) => (item as Note).id.toString()}
                 />
+            ) : (
+                <MasonryList
+                    data={Array(20)
+                        .fill(0)
+                        .map(
+                            () =>
+                                Math.floor(Math.random() * (320 - 48 + 1)) + 48,
+                        )}
+                    numColumns={2}
+                    style={{
+                        gap: styles.spacing.xs,
+                        paddingVertical: isPublic
+                            ? styles.spacing.xs
+                            : 48 + styles.spacing.xs,
+                    }}
+                    renderItem={({ item }) => {
+                        const height = item as number;
+                        return (
+                            <Skeleton
+                                style={{
+                                    width: "100%",
+                                    height: height,
+                                    borderRadius: styles.radius.md,
+                                    marginBottom: styles.spacing.xs,
+                                }}
+                                hasBorder
+                            />
+                        );
+                    }}
+                />
             )}
+
             <LinearGradient
                 colors={["transparent", styles.colors.backgroundMain]}
                 style={{

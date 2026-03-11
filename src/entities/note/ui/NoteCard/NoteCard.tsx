@@ -1,13 +1,14 @@
 import { Pressable, View } from "react-native";
-import { DefaultText } from "../../../../shared";
+import { DefaultText, styles } from "../../../../shared";
 import { s } from "./NoteCardStyles";
-import { invertColorWithBrightness } from "../../utils/invertColorWithBrigtness";
+import { invertColorWithBrightness } from "../../utils/invertColorWithBrightness";
 import { Note } from "../../model/types";
 import { useNavigation } from "@react-navigation/native";
 import { AppStackParamList } from "../../../../app/providers/navigation/types";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { useDispatch } from "react-redux";
 import { setCurrentNote } from "../../model/slice";
+import EyeIcon from "../../../../shared/assets/icons/eye.svg";
 
 interface NoteCardProps {
     data: Note;
@@ -15,7 +16,7 @@ interface NoteCardProps {
 }
 
 export function NoteCard({ data, isPublic }: NoteCardProps) {
-    const { color, content, title, updated_at, user_id } = data;
+    const { color, content, title, updated_at, is_public } = data;
 
     const dispatch = useDispatch();
 
@@ -38,6 +39,24 @@ export function NoteCard({ data, isPublic }: NoteCardProps) {
             ]}
             onPress={handleOpenNote}
         >
+            {!isPublic && is_public && (
+                <View
+                    style={{
+                        position: "absolute",
+                        right: styles.spacing.xs,
+                        top: styles.spacing.xxs,
+                        backgroundColor: color,
+                        borderRadius: styles.radius.sm,
+                    }}
+                >
+                    <EyeIcon
+                        height={16}
+                        width={16}
+                        color={invertColorWithBrightness(color, 0.3)}
+                    />
+                </View>
+            )}
+
             {title && (
                 <DefaultText
                     numberOfLines={1}

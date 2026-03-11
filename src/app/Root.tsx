@@ -8,7 +8,7 @@ import {
     selectTokenTrigger,
     useGetMeMutation,
 } from "../features/auth/model/authApiSlice";
-import { styles } from "../shared";
+import { styles, Warning } from "../shared";
 import { RootNavigator } from "./providers/navigation/RootNavigator";
 import { useEffect } from "react";
 import { useSelector } from "react-redux";

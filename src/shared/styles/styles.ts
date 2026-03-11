@@ -1,4 +1,4 @@
-import { invertColorWithBrightness } from "../../entities/note/utils/invertColorWithBrigtness";
+import { invertColorWithBrightness } from "../../entities/note/utils/invertColorWithBrightness";
 
 const mainColor = "#ebe1cc";
 const invertedMainColor = invertColorWithBrightness(mainColor, 0.3);

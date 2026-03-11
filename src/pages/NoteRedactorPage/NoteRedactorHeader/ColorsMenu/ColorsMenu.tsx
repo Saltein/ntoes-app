@@ -1,6 +1,6 @@
 import { FlatList, Pressable, View } from "react-native";
 import { s } from "./ColorsMenuStyles";
-import { invertColorWithBrightness } from "../../../../entities/note/utils/invertColorWithBrigtness";
+import { invertColorWithBrightness } from "../../../../entities/note/utils/invertColorWithBrightness";
 import { pastelColors } from "../../../../shared/consts";
 import { styles } from "../../../../shared";
 

@@ -24,9 +24,15 @@ export function Warning({ type, content }: WarningProps) {
         textStyle = s.infoText;
     }
 
+    let text = "";
+    if (content.toLowerCase().includes("fetch_error")) {
+        text =
+            "Не удалось установить соединение с сервером.\nПроверьте подключение к интернету";
+    }
+
     return (
         <View style={[s.container, containerStyle]}>
-            <DefaultText style={[s.text, textStyle]}>{content}</DefaultText>
+            <DefaultText style={[s.text, textStyle]}>{text}</DefaultText>
         </View>
     );
 }
