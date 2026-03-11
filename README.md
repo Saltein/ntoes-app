@@ -32,13 +32,13 @@
       <em>Форма регистрации</em>
     </td>
     <td align="center">
-      <img src="https://github.com/user-attachments/assets/2ada0ddd-7e88-4602-921d-5b4f9b9bbf2d" width="200" /><br>
+      <img src="https://github.com/user-attachments/assets/7f2c1663-9228-4d48-ad7e-c9e262d330d1" width="200" /><br>
       <em>Экран с заметками</em>
     </td>
   </tr>
   <tr>
     <td align="center">
-      <img src="https://github.com/user-attachments/assets/1ce6e58c-1859-471e-bee7-b36758764e9a" width="200" /><br>
+      <img src="https://github.com/user-attachments/assets/43a93324-c029-4cb2-9370-89975c96a9b5" width="200" /><br>
       <em>Экран с публичными заметками</em>
     </td>
     <td align="center">
@@ -121,10 +121,7 @@ EXPO_PUBLIC_BASE_URL=<адрес вашего бэкенда>/api/
 ---
 
 ## Планы на развитие:
-- Отображение никнеймов в публичных заметках
-- В своих заметках обозначать опубликованные значком глаза
 - Добавить пагинацию на экран с публичными заметками
-### Грандиозные идеи:
 - добавить возможность создавать группы и публиковать заметки в них
 
 ---
